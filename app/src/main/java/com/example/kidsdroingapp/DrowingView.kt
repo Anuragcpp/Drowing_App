@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 
 class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) {
@@ -32,6 +33,61 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
         mDrowPaint.strokeCap = Paint.Cap.ROUND
         mCanvasPaint = Paint(Paint.DITHER_FLAG)
         mBrushSize = 20.toFloat()
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        mCanvasBitmp = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888)
+        canvas = Canvas(mCanvasBitmp)
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        canvas.drawBitmap(mCanvasBitmp,0f,0f,mCanvasPaint)
+        if (!mDrowPath.isEmpty){
+            mDrowPaint.strokeWidth = mDrowPath.brushThickness
+            mDrowPaint.color =mDrowPaint.color
+            canvas.drawPath(mDrowPath,mDrowPaint)
+        }
+
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+
+        val touchX = event?.x
+        val touchY = event?.y
+        when(event?.action){
+            MotionEvent.ACTION_DOWN -> {
+                mDrowPath.color = color
+                mDrowPath.brushThickness= mBrushSize
+
+                mDrowPath.reset()
+                if (touchX != null) {
+                    if (touchY != null) {
+                        mDrowPath.moveTo(touchX,touchY)
+                    }
+                }
+            }
+
+            MotionEvent.ACTION_MOVE -> {
+                if (touchX != null) {
+                    if (touchY != null) {
+                        mDrowPath.lineTo(touchX,touchY)
+                    }
+                }
+            }
+
+            MotionEvent.ACTION_UP -> {
+                mDrowPath = CustomPath(color,mBrushSize)
+            }
+
+            else -> return false
+
+        }
+
+        invalidate()
+
+        return true
     }
 
     internal inner class CustomPath (
