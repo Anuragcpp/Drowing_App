@@ -19,6 +19,7 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
     private var mBrushSize : Float = 0.toFloat()
     private var color = Color.BLACK
     private lateinit var canvas : Canvas
+    private val mPaths = ArrayList<CustomPath>()
 
     init {
         setUPDrowing()
@@ -44,6 +45,14 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawBitmap(mCanvasBitmp,0f,0f,mCanvasPaint)
+         //This loop is to hold all the stork that are drown in the screen, witheout
+        // this we can  only drow one line at time and when we lift our hand it vanish
+        for (path in mPaths){
+            mDrowPaint.strokeWidth = path.brushThickness
+            mDrowPaint.color = path.color
+            canvas.drawPath(path,mDrowPaint)
+        }
+
         if (!mDrowPath.isEmpty){
             mDrowPaint.strokeWidth = mDrowPath.brushThickness
             mDrowPaint.color =mDrowPaint.color
@@ -57,6 +66,8 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
         val touchX = event?.x
         val touchY = event?.y
         when(event?.action){
+
+            //when we put our finger in the screen then this fuction will be called
             MotionEvent.ACTION_DOWN -> {
                 mDrowPath.color = color
                 mDrowPath.brushThickness= mBrushSize
@@ -68,7 +79,7 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
                     }
                 }
             }
-
+            //when we move our finger in the screen then this action will perform
             MotionEvent.ACTION_MOVE -> {
                 if (touchX != null) {
                     if (touchY != null) {
@@ -77,7 +88,9 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
                 }
             }
 
+            //when we remove out finger from the screen then this action will be called
             MotionEvent.ACTION_UP -> {
+                mPaths.add(mDrowPath)
                 mDrowPath = CustomPath(color,mBrushSize)
             }
 
