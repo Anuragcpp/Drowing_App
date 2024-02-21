@@ -7,8 +7,10 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import java.lang.reflect.Type
 
 class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) {
 
@@ -33,7 +35,8 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
         mDrowPaint.strokeJoin = Paint.Join.ROUND
         mDrowPaint.strokeCap = Paint.Cap.ROUND
         mCanvasPaint = Paint(Paint.DITHER_FLAG)
-        mBrushSize = 20.toFloat()
+        //no need to set the mBrushSize as we will set in the main activity
+//        mBrushSize = 20.toFloat()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -101,6 +104,13 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
         invalidate()
 
         return true
+    }
+
+    fun setSizeForBrush(newSize : Float){
+        mBrushSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+            newSize,resources.displayMetrics
+        )
+        mDrowPaint.strokeWidth = mBrushSize
     }
 
     internal inner class CustomPath (
