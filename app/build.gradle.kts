@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.libsDirectory
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
@@ -35,6 +37,8 @@ android {
         jvmTarget = "1.8"
     }
 
+
+
     //dependencies for the view and data binding
     buildFeatures {
         viewBinding = true
@@ -50,4 +54,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    //dependencies for the color picker gfg
+//    implementation ("com.github.duanhong169:colorpicker:1.1.6")
+    implementation(libs.colorpicker)
+
+//    val latestVersion = "1.1.6"
+//    implementation("com.github.duanhong169:colorpicker:${latestVersion}")
 }
