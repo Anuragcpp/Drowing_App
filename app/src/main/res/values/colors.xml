@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="red">#bc4749</color>
+    <color name="orage">#f4a261</color>
+    <color name="Ghura_color">#e9c46a</color>
+    <color name="skyblue_green">#2a9d8f</color>
+    <color name="navi_blue">#264653</color>
+    <color name="skin">#f28482</color>
+    <color name="green">#c7f9cc</color>
+
 </resources>

@@ -113,6 +113,12 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
         mDrowPaint.strokeWidth = mBrushSize
     }
 
+    fun setColor (newColor : String){
+        color = Color.parseColor(newColor);
+        mDrowPaint.color = color
+    }
+
+
     internal inner class CustomPath (
         var color: Int,
         var brushThickness : Float)
