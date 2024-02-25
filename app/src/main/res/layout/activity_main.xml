@@ -121,33 +121,20 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ib_brush_color"
         app:layout_constraintTop_toBottomOf="@id/ll_paint_color"/>
 
-<!--    <ImageButton-->
-<!--        android:id="@+id/ib_mPickColorButton"-->
-<!--        android:layout_width="50dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:src="@drawable/paint_brush"-->
-<!--        android:layout_margin="5dp"-->
-<!--        android:scaleType="fitXY"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@id/ib_brush"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/ll_paint_color"/>-->
-
-<!--    <View-->
-<!--        android:id="@+id/preview_selected_color"-->
-<!--        android:layout_width="48dp"-->
-<!--        android:layout_height="48dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:background="@android:color/darker_gray"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        app:layout_constraintStart_toEndOf="@id/ib_mPickColorButton"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/ll_paint_color"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
-
+    <ImageButton
+        android:id="@+id/ib_brush_color"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/paint"
+        android:layout_margin="5dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ib_brush"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_paint_color"/>
 
 
 

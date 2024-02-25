@@ -56,9 +56,4 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     //dependencies for the color picker gfg
-//    implementation ("com.github.duanhong169:colorpicker:1.1.6")
-    implementation(libs.colorpicker)
-
-//    val latestVersion = "1.1.6"
-//    implementation("com.github.duanhong169:colorpicker:${latestVersion}")
 }

@@ -6,15 +6,11 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.View.OnClickListener
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
-import top.defaults.colorpicker.ColorPickerPopup
-import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
     private lateinit var drowingView : DrowingView
@@ -26,10 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var linearLayoutPaintColor : LinearLayout
 
 
-    //for the color picker
-    private lateinit var mPickColorButton : ImageButton
-    private var mDefaultColor by Delegates.notNull<Int>()
-    private lateinit var mColorPreview : View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,75 +39,6 @@ class MainActivity : AppCompatActivity() {
         ib_brush.setOnClickListener{
             showBrushSizeChooserDialog()
         }
-
-        //for the color picker
-//        mColorPreview = findViewById(R.id.preview_selected_color)
-//        mDefaultColor = 0
-//        mPickColorButton = findViewById(R.id.ib_mPickColorButton)
-//        mPickColorButton.setOnClickListener (
-//            object  : OnClickListener {
-//                override fun onClick(v: View?) {
-//                    ColorPickerPopup.Builder(this@MainActivity).initialColor(
-//                        Color.RED
-//                    ) // set initial color
-//                        // of the color
-//                        // picker dialog
-//                        .enableBrightness(
-//                            true
-//                        ) // enable color brightness
-//                        // slider or not
-//                        .enableAlpha(
-//                            true
-//                        ) // enable color alpha
-//                        // changer on slider or
-//                        // not
-//                        .okTitle(
-//                            "Choose"
-//                        ) // this is top right
-//                        // Choose button
-//                        .cancelTitle(
-//                            "Cancel"
-//                        ) // this is top left
-//                        // Cancel button which
-//                        // closes the
-//                        .showIndicator(
-//                            true
-//                        ) // this is the small box
-//                        // which shows the chosen
-//                        // color by user at the
-//                        // bottom of the cancel
-//                        // button
-//                        .showValue(
-//                            true
-//                        ) // this is the value which
-//                        // shows the selected
-//                        // color hex code
-//                        // the above all values can be made
-//                        // false to disable them on the
-//                        // color picker dialog.
-//                        .build()
-//                        .show(
-//                            v,
-//                            object : ColorPickerPopup.ColorPickerObserver() {
-//                                override fun onColorPicked(color: Int) {
-//                                    // set the color
-//                                    // which is returned
-//                                    // by the color
-//                                    // picker
-//                                    mDefaultColor = color
-//
-//                                    // now as soon as
-//                                    // the dialog closes
-//                                    // set the preview
-//                                    // box to returned
-//                                    // color
-//                                    mColorPreview.setBackgroundColor(mDefaultColor)
-//                                }
-//                            })
-//                }
-//            }
-//
-//        )
     }
 
     private fun showBrushSizeChooserDialog (){
