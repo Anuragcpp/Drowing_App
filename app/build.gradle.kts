@@ -51,9 +51,11 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    //dependencies for the color picker gfg
+    //dependencies for the color picker
+    implementation("com.github.skydoves:colorpickerview:2.3.0")
 }

@@ -10,7 +10,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
-import java.lang.reflect.Type
 
 class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) {
 
@@ -22,6 +21,8 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
     private var color = Color.BLACK
     private lateinit var canvas : Canvas
     private val mPaths = ArrayList<CustomPath>()
+
+
 
     init {
         setUPDrowing()
@@ -53,6 +54,8 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
         for (path in mPaths){
             mDrowPaint.strokeWidth = path.brushThickness
             mDrowPaint.color = path.color
+
+//            changed the path to path.path
             canvas.drawPath(path,mDrowPaint)
         }
 
@@ -95,6 +98,8 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
             MotionEvent.ACTION_UP -> {
                 mPaths.add(mDrowPath)
                 mDrowPath = CustomPath(color,mBrushSize)
+                mPaths.add(mDrowPath)
+
             }
 
             else -> return false
@@ -119,6 +124,7 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
     }
 
 
+
     internal inner class CustomPath (
         var color: Int,
         var brushThickness : Float)
@@ -127,3 +133,7 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
     }
 
 }
+
+
+
+

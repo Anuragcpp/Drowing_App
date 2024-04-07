@@ -9,6 +9,7 @@ espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.11.0"
 constraintlayout = "2.1.4"
+firebase-crashlytics-buildtools = "2.9.9"
 
 [libraries]
 colorpicker = { module = "com.github.duanhong169:colorpicker", version.ref = "colorpicker" }
@@ -19,6 +20,7 @@ espresso-core = { group = "androidx.test.espresso", name = "espresso-core", vers
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebase-crashlytics-buildtools" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
