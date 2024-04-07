@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var ib_brush_color : ImageButton
     private lateinit var binding: ActivityMainBinding
 
+    private val colorViewReqCode : Int = 100
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,25 +55,45 @@ class MainActivity : AppCompatActivity() {
         ib_brush_color = binding.ibBrushColor
         ib_brush_color.setOnClickListener {
             val intent = Intent(this,ColorView::class.java)
-            startActivity(intent)
+//            startActivity(intent)
+            startActivityForResult(intent , colorViewReqCode)
         }
 
 
         ///TODO error occureing need to fix it
-        val colorCode = intent.getStringExtra("colorCode")
+//        val colorCode = intent.getStringExtra("colorCode")
+//
+//        if (!colorCode.isNullOrBlank()) {
+//            try {
+//                drowingView.setColor("#${colorCode}")
+//            } catch (e: IllegalArgumentException) {
+//                // Handle the case where the color code is not valid
+//                e.printStackTrace()
+//            }
+//        } else {
+//            // Handle the case where colorCode is null or empty Toast.makeText(this, "Invalid or missing color code", Toast.LENGTH_SHORT).show()
+//        }
 
-        if (!colorCode.isNullOrBlank()) {
-            try {
-                drowingView.setColor("#${colorCode}")
-            } catch (e: IllegalArgumentException) {
-                // Handle the case where the color code is not valid
-                e.printStackTrace()
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == colorViewReqCode){
+            val colorCode = intent.getStringExtra("colorCode")
+
+            if (!colorCode.isNullOrBlank()) {
+                try {
+                    drowingView.setColor("#${colorCode}")
+                } catch (e: IllegalArgumentException) {
+                    // Handle the case where the color code is not valid
+                    e.printStackTrace()
+                }
+            } else {
+                // Handle the case where colorCode is null or empty Toast.makeText(this, "Invalid or missing color code", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            // Handle the case where colorCode is null or empty Toast.makeText(this, "Invalid or missing color code", Toast.LENGTH_SHORT).show()
         }
-
-
     }
 
     //onSaveInstanceState code
