@@ -5,24 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <com.example.kidsdroingapp.DrowingView
-        android:id="@+id/drawing_view"
+    <FrameLayout
+        android:id="@+id/fl_drawingView_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@id/ib_brush"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/backgraound_drawing">
+
+        <ImageView
+            android:id="@+id/iv_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="1dp"
+            android:scaleType="centerCrop"
+            android:src=""/>
+
+        <com.example.kidsdroingapp.DrowingView
+            android:id="@+id/drawing_view"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80FFFFFF"
+            />
+    </FrameLayout>
+
+
 
     <LinearLayout
         android:id="@+id/ll_paint_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/drawing_view"
+        app:layout_constraintTop_toBottomOf="@id/fl_drawingView_container"
         app:layout_constraintBottom_toTopOf="@id/ib_brush"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -120,6 +137,17 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ib_image_picker"
+        app:layout_constraintTop_toBottomOf="@id/ll_paint_color"/>
+    <ImageButton
+        android:id="@+id/ib_image_picker"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:scaleType="fitXY"
+        android:src="drawable/"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ib_brush"
         app:layout_constraintEnd_toStartOf="@id/ib_brush_color"
         app:layout_constraintTop_toBottomOf="@id/ll_paint_color"/>
 
@@ -131,7 +159,7 @@
         android:layout_margin="5dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ib_brush"
+        app:layout_constraintStart_toEndOf="@id/ib_image_picker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_paint_color"/>
 
