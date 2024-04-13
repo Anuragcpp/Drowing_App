@@ -100,12 +100,11 @@
         <ImageButton
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/pallet_normal"
             android:layout_margin="2dp"
-            android:tag="@color/white"
-            android:onClick="paintclicked"
             android:background="@color/white"
-            />
+            android:onClick="paintclicked"
+            android:src="@drawable/pallet_normal"
+            android:tag="@color/white" />
 
 
 

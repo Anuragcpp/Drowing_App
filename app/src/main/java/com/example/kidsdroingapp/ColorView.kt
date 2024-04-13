@@ -1,5 +1,6 @@
 package com.example.kidsdroingapp
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -57,7 +58,9 @@ class ColorView : AppCompatActivity() {
         doneBtn.setOnClickListener {
             val intent = Intent(this,MainActivity::class.java)
             intent.putExtra("colorCode",colorCodeValue)
-            startActivity(intent)
+
+            // for data to not loss this has to be setResult
+            setResult(Activity.RESULT_OK,intent)
             finish()
         }
 

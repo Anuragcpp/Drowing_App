@@ -1,5 +1,6 @@
 package com.example.kidsdroingapp
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val colorViewReqCode : Int = 100
+    private lateinit var colorCode : String
 
 
 
@@ -55,54 +57,34 @@ class MainActivity : AppCompatActivity() {
         ib_brush_color = binding.ibBrushColor
         ib_brush_color.setOnClickListener {
             val intent = Intent(this,ColorView::class.java)
-//            startActivity(intent)
-            startActivityForResult(intent , colorViewReqCode)
+            startActivityForResult(intent,colorViewReqCode)
         }
 
 
-        ///TODO error occureing need to fix it
-//        val colorCode = intent.getStringExtra("colorCode")
-//
-//        if (!colorCode.isNullOrBlank()) {
-//            try {
-//                drowingView.setColor("#${colorCode}")
-//            } catch (e: IllegalArgumentException) {
-//                // Handle the case where the color code is not valid
-//                e.printStackTrace()
-//            }
-//        } else {
-//            // Handle the case where colorCode is null or empty Toast.makeText(this, "Invalid or missing color code", Toast.LENGTH_SHORT).show()
-//        }
 
 
+
+    }
+
+
+    // I have declared the setColor in this method as when the activity will restart then only we have to set the colour
+    override fun onRestart() {
+        super.onRestart()
+        // setting the color
+        drowingView.setColor("#$colorCode")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == colorViewReqCode){
-            val colorCode = intent.getStringExtra("colorCode")
-
-            if (!colorCode.isNullOrBlank()) {
-                try {
-                    drowingView.setColor("#${colorCode}")
-                } catch (e: IllegalArgumentException) {
-                    // Handle the case where the color code is not valid
-                    e.printStackTrace()
-                }
-            } else {
-                // Handle the case where colorCode is null or empty Toast.makeText(this, "Invalid or missing color code", Toast.LENGTH_SHORT).show()
+            if (resultCode == Activity.RESULT_OK){
+                // initializing the color code from the data recived from the colorActivity
+                //to use to set the color in the onRestart method
+                colorCode  = data!!.getStringExtra("colorCode").toString()
             }
         }
     }
-
-    //onSaveInstanceState code
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        outState.putParcelableArrayList("drawing_paths", drowingView.)
-//        outState.putInt("current_color", mImageButtonCurrentPaint.tag as Int)
-//        outState.putFloat("brush_size", mBrushSize)
-//    }
 
 
     private fun showBrushSizeChooserDialog (){
