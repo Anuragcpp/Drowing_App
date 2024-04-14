@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Kids Droing App</string>
+    <string name="colorpicker">ColorPicker</string>
+    <string name="gallerybtn">GalleryBtn</string>
+    <string name="brushsize">BrushSize</string>
+    <string name="backgroudimage">backgroudImage</string>
 </resources>
