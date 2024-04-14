@@ -34,6 +34,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var ib_brush_color : ImageButton
     private lateinit var binding: ActivityMainBinding
     private lateinit var galleryBtn : ImageButton
+    private lateinit var undoBtn : ImageButton
+    private lateinit var redoBtn : ImageButton
+
 
     private val colorViewReqCode : Int = 100
 
@@ -131,10 +134,25 @@ class MainActivity : AppCompatActivity() {
 //            openColorPicker.launch(intent)
         }
 
+
+
         /// for the gallery btn
         galleryBtn = binding.galleryBtn
         galleryBtn.setOnClickListener {
             requestStoragePermission()
+        }
+
+
+        // undo button
+        undoBtn = binding.ibUndo
+        undoBtn.setOnClickListener {
+            drowingView.onclickUndo()
+        }
+
+        //redo button
+        redoBtn = binding.ibRedo
+        redoBtn.setOnClickListener {
+            drowingView.onClickRedo()
         }
 
 

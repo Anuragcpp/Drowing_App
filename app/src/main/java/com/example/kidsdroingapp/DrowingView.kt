@@ -21,11 +21,27 @@ class DrowingView (contex : Context, attrs : AttributeSet) : View(contex,attrs) 
     private var color = Color.BLACK
     private lateinit var canvas : Canvas
     private val mPaths = ArrayList<CustomPath>()
+    private val undoPath = ArrayList<CustomPath>()
 
 
 
     init {
         setUPDrowing()
+    }
+
+   fun onclickUndo(){
+        if (mPaths.size > 0){
+            undoPath.add(mPaths.removeAt(mPaths.size -1));
+            // this will internally call the onDraw method to draw all the remaining drawing
+            invalidate()
+        }
+    }
+
+    fun onClickRedo(){
+        if (undoPath.size > 0){
+            mPaths.add(undoPath.removeAt(undoPath.size-1))
+            invalidate()
+        }
     }
 
     private fun setUPDrowing() {

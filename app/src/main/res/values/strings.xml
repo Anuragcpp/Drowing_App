@@ -4,4 +4,5 @@
     <string name="gallerybtn">GalleryBtn</string>
     <string name="brushsize">BrushSize</string>
     <string name="backgroudimage">backgroudImage</string>
+    <string name="undobtn">undoBtn</string>
 </resources>
