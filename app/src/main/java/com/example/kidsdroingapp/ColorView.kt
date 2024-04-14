@@ -61,6 +61,7 @@ class ColorView : AppCompatActivity() {
 
             // for data to not loss this has to be setResult
             setResult(Activity.RESULT_OK,intent)
+//            startActivity(intent)
             finish()
         }
 

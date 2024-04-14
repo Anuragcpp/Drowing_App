@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
@@ -35,7 +36,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var galleryBtn : ImageButton
 
     private val colorViewReqCode : Int = 100
-    private lateinit var colorCode : String
+
+    // the app was crashing due to lateinit property not initialized so I declared it earlier
+    private  var colorCode : String = "000000"
+
+    private val openGalleryLoncher : ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            result ->
+            if(result.resultCode == RESULT_OK && result.data?.data != null){
+                val imageBackgroud : ImageView = findViewById(R.id.iv_background);
+                imageBackgroud.setImageURI(result.data?.data)
+            }
+        }
+
+
+
 
     //camera and gallery loncher
     private val cameraAndGalleryResultLoncher : ActivityResultLauncher<Array<String>> =
@@ -58,10 +73,14 @@ class MainActivity : AppCompatActivity() {
                     } else if (permissionName == Manifest.permission.WRITE_EXTERNAL_STORAGE){
                         //TODO don't know what permission is needed for pick an image form the gallery
 
+
                         Toast.makeText(this,
                             "Permission granted for external storage",
                             Toast.LENGTH_SHORT)
                             .show()
+
+                        val pickIntent : Intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        openGalleryLoncher.launch(pickIntent)
                     }
                 }else{
                     //is permission is denied the we have to check which one is been denied
@@ -109,18 +128,13 @@ class MainActivity : AppCompatActivity() {
         ib_brush_color.setOnClickListener {
             val intent = Intent(this,ColorView::class.java)
             startActivityForResult(intent,colorViewReqCode)
+//            openColorPicker.launch(intent)
         }
 
         /// for the gallery btn
         galleryBtn = binding.galleryBtn
         galleryBtn.setOnClickListener {
             requestStoragePermission()
-//            cameraAndGalleryResultLoncher.launch(
-//                arrayOf(
-//                    Manifest.permission.CAMERA,
-//                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-//                )
-//            )
         }
 
 
@@ -145,6 +159,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    
+    // Aleart dialog for custome massage
     private fun showRationalDialog(title : String, message : String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(title)
@@ -163,7 +179,10 @@ class MainActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         // setting the color
-        drowingView.setColor("#$colorCode")
+        if(colorCode != null){
+            drowingView.setColor("#$colorCode")
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
