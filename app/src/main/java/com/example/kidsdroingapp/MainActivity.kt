@@ -5,12 +5,16 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -21,7 +25,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.lifecycle.lifecycleScope
 import com.example.kidsdroingapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
     private lateinit var drowingView : DrowingView
@@ -36,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var galleryBtn : ImageButton
     private lateinit var undoBtn : ImageButton
     private lateinit var redoBtn : ImageButton
+    private lateinit var saveBtn : ImageButton
 
 
     private val colorViewReqCode : Int = 100
@@ -155,10 +167,110 @@ class MainActivity : AppCompatActivity() {
             drowingView.onClickRedo()
         }
 
+        //save button
+        saveBtn = binding.ibSave
+        saveBtn.setOnClickListener {
+
+            if(isReadStorageAllowed()){
+                lifecycleScope.launch {
+                    // flDrawingView is the view  where the background image and the canvas where we draw is availvle
+                    val flDrawingView : FrameLayout = findViewById(R.id.fl_drawingView_container)
+
+                    // now we are passing the view to the getBitmapFromView function to get the bitmap out of it then we are passing
+                    //bitmap to the saveBitmapFile to save the bitmap on the local storage, image are in the form of bitmap
+                    saveBitmapFile(getBitmapFromView(flDrawingView))
+                    Toast.makeText(this@MainActivity,"clicked",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
 
 
 
+
+    }
+
+    // converting the view in which we drawing to and bitmap so that we can stort it
+    private fun getBitmapFromView(view: View) : Bitmap {
+
+        val returnBitmap =  Bitmap.createBitmap(
+            view.width,
+            view.height,
+            Bitmap.Config.ARGB_8888)
+
+        val canvas : Canvas = Canvas(returnBitmap)
+        val bgDrawable = view.background
+
+        if(bgDrawable != null){
+            //if background is there then we draw that on the canvas
+            bgDrawable.draw(canvas)
+        }else{
+            // if no background the we draw a white backgraond on the canvas
+            canvas.drawColor(Color.WHITE)
+        }
+
+        //draw the view on the canvas
+        view.draw(canvas)
+
+        return returnBitmap
+    }
+
+    //TODO need  to creat a function to save the file or image
+    private suspend fun saveBitmapFile(mBitmap: Bitmap?) : String {
+        var result : String = ""
+        withContext(Dispatchers.IO){
+            if(mBitmap != null){
+                try {
+                    // create a new byte stream initializy its 32 byts
+                    val bytes = ByteArrayOutputStream();
+
+                    // here png is the output format , 90 is the quality rating ,90 means good , then we pass the output stream
+                    mBitmap.compress(Bitmap.CompressFormat.PNG,90,bytes)
+
+                    val f = File(
+                        externalCacheDir?.absoluteFile.toString() +
+                                File.separator +
+                                "KidDrawingApp" +
+                                System.currentTimeMillis()/1000 +
+                                ".png"
+                    )
+
+                    val fo = FileOutputStream(f)
+                    fo.write(bytes.toByteArray())
+                    fo.close()
+
+                    result = f.absolutePath
+
+                    runOnUiThread{
+                        if (result.isNotEmpty()){
+                            Toast.makeText(this@MainActivity,
+                                "File saved successfully : $result",
+                                Toast.LENGTH_SHORT
+                                ).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,
+                                "Something went wrong while saving the file",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }catch (e : Exception){
+                    result = ""
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        return result
+
+    }
+
+    // a function to check that if the write external storage permission is granted or not
+    private fun isReadStorageAllowed() : Boolean{
+        var result = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        return result == PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestStoragePermission() {
