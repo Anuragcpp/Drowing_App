@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var undoBtn : ImageButton
     private lateinit var redoBtn : ImageButton
     private lateinit var saveBtn : ImageButton
+    private  var customProgressDialog : Dialog? = null
 
 
     private val colorViewReqCode : Int = 100
@@ -172,6 +173,8 @@ class MainActivity : AppCompatActivity() {
         saveBtn.setOnClickListener {
 
             if(isReadStorageAllowed()){
+                //displaying a progress dialog to hide the backgrond process, we will dismiss it when saving is done , int eh saveBitmapFile function
+                showProgressDialog()
                 lifecycleScope.launch {
                     // flDrawingView is the view  where the background image and the canvas where we draw is availvle
                     val flDrawingView : FrameLayout = findViewById(R.id.fl_drawingView_container)
@@ -242,6 +245,10 @@ class MainActivity : AppCompatActivity() {
                     result = f.absolutePath
 
                     runOnUiThread{
+                        // dismissing the progress dialog
+                        cancleProgressBarDialog()
+
+                        
                         if (result.isNotEmpty()){
                             Toast.makeText(this@MainActivity,
                                 "File saved successfully : $result",
@@ -264,6 +271,26 @@ class MainActivity : AppCompatActivity() {
         return result
 
     }
+
+    // custiom progress dialog to rum while something is going on the backgrond
+    private fun showProgressDialog (){
+        customProgressDialog = Dialog(this)
+
+        // set the layout whithe the custom layout design
+        customProgressDialog?.setContentView(R.layout.dialog_custom_progress_bar)
+
+        //show the progress bar
+        customProgressDialog?.show()
+
+    }
+
+    private fun cancleProgressBarDialog (){
+        if (customProgressDialog != null){
+            customProgressDialog?.dismiss()
+            customProgressDialog = null
+        }
+    }
+
 
     // a function to check that if the write external storage permission is granted or not
     private fun isReadStorageAllowed() : Boolean{
