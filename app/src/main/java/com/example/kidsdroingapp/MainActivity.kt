@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.media.MediaScannerConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -162,11 +163,11 @@ class MainActivity : AppCompatActivity() {
             drowingView.onclickUndo()
         }
 
-        //redo button
-        redoBtn = binding.ibRedo
-        redoBtn.setOnClickListener {
-            drowingView.onClickRedo()
-        }
+        //redo button TODO I don't think this redo is needed
+//        redoBtn = binding.ibRedo
+//        redoBtn.setOnClickListener {
+//            drowingView.onClickRedo()
+//        }
 
         //save button
         saveBtn = binding.ibSave
@@ -182,7 +183,6 @@ class MainActivity : AppCompatActivity() {
                     // now we are passing the view to the getBitmapFromView function to get the bitmap out of it then we are passing
                     //bitmap to the saveBitmapFile to save the bitmap on the local storage, image are in the form of bitmap
                     saveBitmapFile(getBitmapFromView(flDrawingView))
-                    Toast.makeText(this@MainActivity,"clicked",Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -254,6 +254,9 @@ class MainActivity : AppCompatActivity() {
                                 "File saved successfully : $result",
                                 Toast.LENGTH_SHORT
                                 ).show()
+
+                            // starting the shareImage to share the image just save to other
+                            shareImage(result)
                         }else{
                             Toast.makeText(this@MainActivity,
                                 "Something went wrong while saving the file",
@@ -282,6 +285,19 @@ class MainActivity : AppCompatActivity() {
         //show the progress bar
         customProgressDialog?.show()
 
+    }
+
+    // fucition for share the image saved
+    private fun shareImage (result : String){
+        MediaScannerConnection.scanFile(this, arrayOf(result),null){
+            path,uri ->
+
+            val shareIntent = Intent();
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_STREAM,uri)
+            shareIntent.type = "image/png"
+            startActivity(Intent.createChooser(shareIntent,"Share"))
+        }
     }
 
     private fun cancleProgressBarDialog (){
